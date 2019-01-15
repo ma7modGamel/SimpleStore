@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    android:layout_margin="16dp"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+<ImageView
+
+    android:layout_gravity="center"
+    android:scaleType="centerCrop"
+
+
+    android:id="@+id/img_recycleItem"
+    android:layout_width="210dp"
+    android:layout_height="180dp"
+
+    android:src="@mipmap/ic_launcher"/>
+    <TextView
+        android:id="@+id/tv_recycleItem"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="name product"
+        android:background="@drawable/edittext_background_white"
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        android:textColor="@color/colorPrimary"/>
+
+</LinearLayout>

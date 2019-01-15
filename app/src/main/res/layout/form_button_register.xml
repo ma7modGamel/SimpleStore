@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_margin="16dp">
+
+        <Button
+
+
+            android:id="@+id/btnRegisterNow"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+
+            android:background="@drawable/button_background_orange"
+            android:text="REGISTER"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_below="@+id/btnRegisterNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="bottom"
+            android:gravity="center|bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="8dp"
+                android:text="Alreadt A Member?"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:id="@+id/id_tv_gotoRegActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="8dp"
+                android:text="Login"
+                android:textColor="#FF5722"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</merge>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:background="@color/colorGray"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/edittext_background_white"
+            android:drawableLeft="@drawable/ic_action_user"
+            android:drawablePadding="10dp"
+            android:elevation="5dp"
+            android:ems="10"
+
+            android:hint="Full name"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            android:shadowColor="#ABABAB"
+            android:shadowDx="5"
+            android:shadowDy="5" />
+
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/edittext_background_white"
+
+            android:drawableLeft="@drawable/ic_action_mail"
+            android:drawablePadding="10dp"
+            android:elevation="5dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="16dp"
+            android:shadowColor="#ABABAB"
+
+            android:shadowDx="5"
+            android:shadowDy="5" />
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/edittext_background_white"
+
+            android:drawableLeft="@drawable/ic_action_call"
+            android:drawablePadding="10dp"
+            android:elevation="5dp"
+            android:ems="10"
+            android:hint="Phone number"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            android:shadowColor="#ABABAB"
+            android:shadowDx="5"
+            android:shadowDy="5" />
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"
+
+
+            android:background="@drawable/edittext_background_white"
+            android:drawableStart="@drawable/ic_action_password"
+            android:drawableLeft="@drawable/ic_action_mail"
+            android:drawablePadding="10dp"
+            android:elevation="5dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            android:shadowColor="#ABABAB"
+            android:shadowDx="5"
+            android:shadowDy="5" />
+
+
+    </LinearLayout>
+</merge>

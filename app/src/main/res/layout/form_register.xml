@@ -15,6 +15,8 @@
 
         <EditText
 
+            android:id="@+id/et_fullname"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="8dp"
@@ -24,8 +26,9 @@
             android:elevation="5dp"
             android:ems="10"
 
+            android:textSize="16sp"
             android:hint="Full name"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:paddingLeft="16dp"
             android:shadowColor="#ABABAB"
             android:shadowDx="5"
@@ -33,7 +36,8 @@
 
 
         <EditText
-
+            android:id="@+id/et_emailReg"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="8dp"
@@ -44,6 +48,7 @@
             android:elevation="5dp"
             android:ems="10"
             android:hint="Email"
+            android:textSize="16sp"
             android:inputType="textEmailAddress"
             android:paddingLeft="16dp"
             android:shadowColor="#ABABAB"
@@ -52,7 +57,9 @@
             android:shadowDy="5" />
 
         <EditText
-
+            android:textSize="16sp"
+            android:id="@+id/et_phone"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="8dp"
@@ -63,7 +70,7 @@
             android:elevation="5dp"
             android:ems="10"
             android:hint="Phone number"
-            android:inputType="textPassword"
+            android:inputType="numberDecimal"
             android:paddingLeft="16dp"
             android:shadowColor="#ABABAB"
             android:shadowDx="5"
@@ -71,11 +78,13 @@
 
         <EditText
 
+            android:id="@+id/et_passwordReg"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="8dp"
 
-
+            android:textSize="16sp"
             android:background="@drawable/edittext_background_white"
             android:drawableStart="@drawable/ic_action_password"
             android:drawableLeft="@drawable/ic_action_mail"

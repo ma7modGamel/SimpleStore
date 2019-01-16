@@ -30,12 +30,24 @@ public class LogInActivity extends AppCompatActivity {
     EditText email, password;
     Button buttonLogin;
 
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        email = findViewById(R.id.et_email);
+        password = findViewById(R.id.et_password);
+        buttonLogin = findViewById(R.id.btn_login);
+        mAuth = FirebaseAuth.getInstance();
         viewRegester=findViewById(R.id.tv_Register);
+
+        intent=getIntent();
+        String usernameStr = intent.getStringExtra("username");
+        String passwordStr = intent.getStringExtra("password");
+        email.setText(usernameStr);
+        password.setText(passwordStr);
+
+
         viewRegester.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,10 +56,9 @@ public class LogInActivity extends AppCompatActivity {
                 finish();
             }
         });
-        email = findViewById(R.id.et_email);
-        password = findViewById(R.id.et_password);
-        buttonLogin = findViewById(R.id.btn_login);
-        mAuth = FirebaseAuth.getInstance();
+
+
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -70,11 +70,11 @@
 
             <EditText
 
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/edittext_background_white"
-                android:drawableStart="@drawable/ic_action_mail"
                 android:drawableLeft="@drawable/ic_action_mail"
                 android:drawablePadding="10dp"
                 android:elevation="5dp"
@@ -89,12 +89,13 @@
 
             <EditText
 
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/edittext_background_white"
-                android:drawableStart="@drawable/ic_action_password"
-                android:drawableLeft="@drawable/ic_action_mail"
+                android:drawableLeft="@drawable/ic_action_password"
+
                 android:drawablePadding="10dp"
                 android:elevation="5dp"
                 android:ems="10"
@@ -121,12 +122,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorGray"
             android:orientation="vertical"
             android:padding="16dp">
 
             <Button
 
 
+                android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="18dp"
@@ -139,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
+                android:layout_gravity="bottom|center"
                 android:gravity="center|bottom"
                 android:orientation="horizontal"
                 android:paddingBottom="16dp">
@@ -156,6 +159,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_Register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 

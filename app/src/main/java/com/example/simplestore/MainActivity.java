@@ -6,16 +6,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager manager;
     ListView listView;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         listView=findViewById(R.id.id_listView);
         manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -35,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new AdabterRecycleProduct(MainActivity.this, modelProducts));
 
     }
+
+
+
+
 
 }
 

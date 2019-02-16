@@ -19,6 +19,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/btnAddId"
             android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="45dp"

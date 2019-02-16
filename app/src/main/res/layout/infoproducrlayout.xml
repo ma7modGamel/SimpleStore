@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:layout_margin="8dp"
+        android:padding="16dp"
+        android:id="@+id/id_productImg"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="350dp"
+
+        android:src="@drawable/ic_photo" />
+
+    <EditText
+        android:gravity="center"
+        android:id="@+id/et_nameProduct"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/edittext_background_white"
+        android:drawableLeft="@drawable/ic_name_product"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:ems="10"
+        android:hint="name product"
+        android:inputType="numberDecimal"
+        android:paddingLeft="16dp"
+        android:shadowColor="#ABABAB"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:gravity="center"
+        android:id="@+id/et_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/edittext_background_white"
+        android:drawableLeft="@drawable/ic_quantity"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:ems="10"
+        android:hint="Quantity Product"
+        android:inputType="numberDecimal"
+        android:paddingLeft="16dp"
+        android:shadowColor="#ABABAB"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:gravity="center"
+        android:id="@+id/et_price"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/edittext_background_white"
+        android:drawableLeft="@drawable/ic_price"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:ems="10"
+        android:hint="Price Product"
+        android:inputType="numberDecimal"
+        android:paddingLeft="16dp"
+        android:shadowColor="#ABABAB"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+    <Button
+        android:gravity="center"
+
+        android:layout_margin="8dp"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:ems="10"
+
+        android:paddingLeft="16dp"
+        android:shadowColor="#ABABAB"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:onClick="addtoDataBase"
+        android:id="@+id/btnRegisterNow"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/button_background_orange"
+        android:text="Add To Database"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+</LinearLayout>
+</ScrollView>
+</LinearLayout>

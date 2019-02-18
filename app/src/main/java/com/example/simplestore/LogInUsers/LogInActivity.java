@@ -26,7 +26,8 @@ public class LogInActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    TextView viewRegester;
+
+    TextView textViewRegester;
     EditText email, password;
     Button buttonLogin;
 
@@ -39,7 +40,7 @@ public class LogInActivity extends AppCompatActivity {
         password = findViewById(R.id.et_password);
         buttonLogin = findViewById(R.id.btn_login);
         mAuth = FirebaseAuth.getInstance();
-        viewRegester=findViewById(R.id.tv_Register);
+        textViewRegester=findViewById(R.id.tv_Register);
 
         intent=getIntent();
         String usernameStr = intent.getStringExtra("username");
@@ -48,7 +49,7 @@ public class LogInActivity extends AppCompatActivity {
         password.setText(passwordStr);
 
 
-        viewRegester.setOnClickListener(new View.OnClickListener() {
+        textViewRegester.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LogInActivity.this, RegisterActivity.class);

@@ -1,30 +1,46 @@
 package com.example.simplestore.UtilsProduct;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ModelProduct implements Parcelable {
     private String nameproduct;
-    private int imgProduct;
+
     private String quantityProduct;
     private String priceProduct;
     private String  id;
+    private String uriImg;
 
-    public ModelProduct(String nameproduct, int imgProduct, String quantityProduct, String priceProduct) {
+    public ModelProduct(String link) {
+    }
+
+
+    public String getUriImg() {
+        return uriImg;
+    }
+
+    public void setUriImg(String uriImg) {
+        this.uriImg = uriImg;
+    }
+
+    public ModelProduct(String nameproduct, String quantityProduct, String priceProduct, String id, String uriImg) {
         this.nameproduct = nameproduct;
-        this.imgProduct = imgProduct;
+
         this.quantityProduct = quantityProduct;
         this.priceProduct = priceProduct;
 
+        this.id = id;
+        this.uriImg = uriImg;
     }
     public ModelProduct() {
 
     }
 
-    protected ModelProduct(Parcel in) {
+    public ModelProduct(Parcel in) {
         nameproduct = in.readString();
         id = in.readString();
-        imgProduct = in.readInt();
+
         quantityProduct = in.readString();
         priceProduct = in.readString();
     }
@@ -50,13 +66,7 @@ public class ModelProduct implements Parcelable {
         this.nameproduct = nameproduct;
     }
 
-    public int getImgProduct() {
-        return imgProduct;
-    }
 
-    public void setImgProduct(int imgProduct) {
-        this.imgProduct = imgProduct;
-    }
 
     public String getQuantityProduct() {
         return quantityProduct;
@@ -90,7 +100,6 @@ public class ModelProduct implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nameproduct);
-        dest.writeInt(imgProduct);
         dest.writeString(quantityProduct);
         dest.writeString(priceProduct);
         dest.writeString(id);

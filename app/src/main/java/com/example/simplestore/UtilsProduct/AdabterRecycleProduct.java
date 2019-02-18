@@ -1,6 +1,7 @@
 package com.example.simplestore.UtilsProduct;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class AdabterRecycleProduct extends RecyclerView.Adapter<AdabterRecyclePr
     public void onBindViewHolder( holder holder, int i) {
 
         ModelProduct product = modelProductArrayList.get(i);
-        holder.imageView.setImageResource(product.getImgProduct());
+        holder.imageView.setImageURI(Uri.parse(product.getUriImg()));
         holder.textView.setText(product.getNameproduct());
 
 

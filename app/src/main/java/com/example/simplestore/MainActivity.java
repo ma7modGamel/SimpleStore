@@ -2,6 +2,7 @@ package com.example.simplestore;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,49 +13,69 @@ import android.widget.ListView;
 import com.example.simplestore.UtilsProduct.AdabterRecycleProduct;
 import com.example.simplestore.UtilsProduct.AdapterListView;
 import com.example.simplestore.UtilsProduct.ModelProduct;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
     RecyclerView recyclerView;
     RecyclerView.LayoutManager manager;
     ListView listView;
     Button btnAdd;
-
+    ArrayList<ModelProduct> modelProducts;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         btnAdd = findViewById(R.id.btnAddId);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, infoProductActivity.class);
-                startActivity(intent);
-            }
-        });
+        modelProducts = new ArrayList<>();
+
+        database = FirebaseDatabase.getInstance();
+
         listView = findViewById(R.id.id_listView);
         manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+
         recyclerView = findViewById(R.id.id_recycle);
         recyclerView.setLayoutManager(manager);
-        String[] namesProduct = {"Dog", "Cat", "Fish", "Bird"};
-        int[] imgProduct = {R.drawable.dog, R.drawable.cat, R.drawable.fish, R.drawable.bird};
-        String[] quantityProduct = {"5", "3", "12", "8"};
-        String[] priceProduct = {"120", "410", "170", "200"};
+
+        myRef = database.getReference().child("products");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ModelProduct product = snapshot.getValue(ModelProduct.class);
+                    modelProducts.add(product);
+                }
+
+                listView.setAdapter(new AdapterListView(MainActivity.this, modelProducts));
+                recyclerView.setAdapter(new AdabterRecycleProduct(MainActivity.this, modelProducts));
 
 
-        ArrayList<ModelProduct> modelProducts = new ArrayList<>();
-        for (int i = 0; i < namesProduct.length; i++) {
-            modelProducts.add(new ModelProduct(namesProduct[i], imgProduct[i], quantityProduct[i], priceProduct[i]));
-        }
-        listView.setAdapter(new AdapterListView(MainActivity.this, modelProducts));
-        recyclerView.setAdapter(new AdabterRecycleProduct(MainActivity.this, modelProducts));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
 
+    public void addNewProduct(View view) {
+        Intent intent = new Intent(MainActivity.this, infoProductActivity.class);
+        startActivity(intent);
+    }
 }
 

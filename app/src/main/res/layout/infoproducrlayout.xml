@@ -96,7 +96,7 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:onClick="addtoDataBase"
-        android:id="@+id/btnRegisterNow"
+        android:id="@+id/btnAddToDB"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/button_background_orange"

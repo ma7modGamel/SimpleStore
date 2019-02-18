@@ -1,47 +1,43 @@
 package com.example.simplestore;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.simplestore.UtilsProduct.ModelProduct;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 public class infoProductActivity extends AppCompatActivity {
     private static final String TAG = "infoProductActivity";
 
 
     int GALLERY_REQUEST = 110;
-    int pImg = 1;
     String pName, pQuantity, pPrice;
     EditText editTextNAmeProduct, editTextPriceProduct, editTextQuantityProduct;
     ImageView productImg;
     Uri selectedImage;
-
+    Button buttonAddToDB;
     DatabaseReference mDatabase;
     StorageReference storageReference;
 
@@ -50,6 +46,7 @@ public class infoProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_product);
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -67,6 +64,28 @@ public class infoProductActivity extends AppCompatActivity {
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
             }
         });
+
+        buttonAddToDB = findViewById(R.id.btnAddToDB);
+        buttonAddToDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (TextUtils.isEmpty(editTextNAmeProduct.getText()) || TextUtils.isEmpty(editTextPriceProduct.getText()) || TextUtils.isEmpty(editTextQuantityProduct.getText())) {
+                    Toast.makeText(infoProductActivity.this, "please complet all information !", Toast.LENGTH_SHORT).show();
+                } else {
+                    pName = editTextNAmeProduct.getText().toString().trim();
+                    pQuantity = editTextQuantityProduct.getText().toString().trim();
+                    pPrice = editTextPriceProduct.getText().toString().trim();
+                    String key = mDatabase.child("products").push().getKey();
+                    uploadToFirebase(selectedImage, key);
+                    ModelProduct product = new ModelProduct(pName, pQuantity, pPrice, key, selectedImage + "");
+                    mDatabase.child("products").child(key).setValue(product);
+
+                    finish();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -87,68 +106,49 @@ public class infoProductActivity extends AppCompatActivity {
     }
 
 
-    public void addtoDataBase(View view) {
-        if (TextUtils.isEmpty(editTextNAmeProduct.getText()) || TextUtils.isEmpty(editTextPriceProduct.getText()) || TextUtils.isEmpty(editTextQuantityProduct.getText())) {
-            Toast.makeText(this, "please complet all information !", Toast.LENGTH_SHORT).show();
-        } else {
-            pName = editTextNAmeProduct.getText().toString().trim();
-            pQuantity = editTextQuantityProduct.getText().toString().trim();
-            pPrice = editTextPriceProduct.getText().toString().trim();
+    private void uploadToFirebase(Uri uriProfileImage, String key) {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        //Select destination filename, folder
+        final StorageReference profileimageRef = storageRef.child(key + ".jpg");
+        UploadTask uploadTask = profileimageRef.putFile(uriProfileImage);
 
 
-            ModelProduct product = new ModelProduct(pName, pImg, pQuantity, pPrice);
-            String key = mDatabase.child("products").push().getKey();
+        //Upload image
+        if (uriProfileImage != null) {
 
-            Log.e(TAG, product.getNameproduct());
-            mDatabase.child("products").child(key).setValue(product);
-
-            Toast.makeText(this, "" + pQuantity + " " + pPrice, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "addtoDataBase: " + pPrice);
-            uploadImage(key);
-
-
-        }
-    }
-
-    private void uploadImage(String key) {
-
-
-        StorageReference mountainsRef = storageReference.child(key);
-        StorageReference mountainImagesRef = storageReference.child("images/"+key);
-
-
-        mountainsRef.getName().equals(mountainImagesRef.getName());
-        mountainsRef.getPath().equals(mountainImagesRef.getPath());
-        if (selectedImage != null) {
-
-            productImg.setDrawingCacheEnabled(true);
-            productImg.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable) productImg.getDrawable()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
-
-            UploadTask uploadTask = mountainsRef.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
 
-                    Log.e("exiption>>>>>>>>>>", exception + "");
-                    Toast.makeText(infoProductActivity.this, " FAILD", Toast.LENGTH_SHORT).show();
+                    return profileimageRef.getDownloadUrl();
                 }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    // ...
 
-                    Toast.makeText(infoProductActivity.this, " SUCCESS ", Toast.LENGTH_SHORT).show();
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+
+                    if (task.isSuccessful()) {
+                        profileimageurl = task.getResult().toString();
+                        saveImagePathToDatabase(profileimageurl);
+                    }
                 }
             });
-
-        } else {
-            Toast.makeText(this, "no image selected", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    String profileimageurl;
+
+    private void saveImagePathToDatabase(String link) {
+
+        ModelProduct product;
+        product = new ModelProduct(link);
+        mDatabase.push().setValue(product);
     }
 }

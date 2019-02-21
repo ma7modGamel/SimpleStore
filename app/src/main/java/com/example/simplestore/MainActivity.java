@@ -2,7 +2,6 @@ package com.example.simplestore;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import com.example.simplestore.UtilsProduct.AdabterRecycleProduct;
 import com.example.simplestore.UtilsProduct.AdapterListView;
 import com.example.simplestore.UtilsProduct.ModelProduct;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,33 +38,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnAdd = findViewById(R.id.btnAddId);
-        modelProducts = new ArrayList<>();
 
-        database = FirebaseDatabase.getInstance();
 
         listView = findViewById(R.id.id_listView);
         manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView = findViewById(R.id.id_recycle);
         recyclerView.setLayoutManager(manager);
 
+        database = FirebaseDatabase.getInstance();
         myRef = database.getReference().child("products");
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                modelProducts = new ArrayList<>();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
                     ModelProduct product = snapshot.getValue(ModelProduct.class);
                     modelProducts.add(product);
                 }
-
                 listView.setAdapter(new AdapterListView(MainActivity.this, modelProducts));
                 recyclerView.setAdapter(new AdabterRecycleProduct(MainActivity.this, modelProducts));
-
-
+                new AdapterListView(MainActivity.this, modelProducts).notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled( DatabaseError databaseError) {
 
             }
         });

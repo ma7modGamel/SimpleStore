@@ -4,47 +4,24 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ModelProduct implements Parcelable {
-    private String nameproduct;
+public class ModelProduct implements  Parcelable{
+   public   String nameproduct;
+  public    String email;
+  public    String phoneNumber;
+  public    String quantityProduct;
+   public   String priceProduct;
+    public String  id;
+    public String uriImg;
 
-    private String quantityProduct;
-    private String priceProduct;
-    private String  id;
-    private String uriImg;
-
-    public ModelProduct(String link) {
-    }
-
-
-    public String getUriImg() {
-        return uriImg;
-    }
-
-    public void setUriImg(String uriImg) {
-        this.uriImg = uriImg;
-    }
-
-    public ModelProduct(String nameproduct, String quantityProduct, String priceProduct, String id, String uriImg) {
+    public ModelProduct(String nameproduct, String email, String phoneNumber, String quantityProduct, String priceProduct, String id, String uriImg) {
         this.nameproduct = nameproduct;
-
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.quantityProduct = quantityProduct;
         this.priceProduct = priceProduct;
-
         this.id = id;
         this.uriImg = uriImg;
     }
-    public ModelProduct() {
-
-    }
-
-    public ModelProduct(Parcel in) {
-        nameproduct = in.readString();
-        id = in.readString();
-
-        quantityProduct = in.readString();
-        priceProduct = in.readString();
-    }
-
 
     public static final Creator<ModelProduct> CREATOR = new Creator<ModelProduct>() {
         @Override
@@ -58,6 +35,24 @@ public class ModelProduct implements Parcelable {
         }
     };
 
+
+    public ModelProduct(String link) {
+    }
+
+
+
+    public ModelProduct() {
+
+    }
+
+    public ModelProduct(Parcel in) {
+        nameproduct = in.readString();
+        id = in.readString();
+
+        quantityProduct = in.readString();
+        priceProduct = in.readString();
+    }
+
     public String getNameproduct() {
         return nameproduct;
     }
@@ -66,7 +61,21 @@ public class ModelProduct implements Parcelable {
         this.nameproduct = nameproduct;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getQuantityProduct() {
         return quantityProduct;
@@ -84,11 +93,6 @@ public class ModelProduct implements Parcelable {
         this.priceProduct = priceProduct;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public String getId() {
         return id;
     }
@@ -97,11 +101,27 @@ public class ModelProduct implements Parcelable {
         this.id = id;
     }
 
+    public String getUriImg() {
+        return uriImg;
+    }
+
+    public void setUriImg(String uriImg) {
+        this.uriImg = uriImg;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nameproduct);
+        dest.writeString(email);
+        dest.writeString(phoneNumber);
         dest.writeString(quantityProduct);
         dest.writeString(priceProduct);
         dest.writeString(id);
+        dest.writeString(uriImg);
     }
 }

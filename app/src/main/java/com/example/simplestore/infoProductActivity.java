@@ -3,8 +3,10 @@ package com.example.simplestore;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -33,11 +35,10 @@ public class infoProductActivity extends AppCompatActivity {
 
 
     int GALLERY_REQUEST = 110;
-    String pName, pQuantity, pPrice;
-    EditText editTextNAmeProduct, editTextPriceProduct, editTextQuantityProduct;
+    String pName, pQuantity, pPrice,uPhone,uMail;
+    EditText editTextNAmeProduct, editTextPriceProduct, editTextQuantityProduct,editTextphoneUser,editTextMailUser;
     ImageView productImg;
     Uri selectedImage;
-    Button buttonAddToDB;
     DatabaseReference mDatabase;
     StorageReference storageReference;
 
@@ -49,10 +50,14 @@ public class infoProductActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
-
+        editTextphoneUser = findViewById(R.id.et_phone_user);
+        editTextMailUser = findViewById(R.id.et_email_user);
         editTextNAmeProduct = findViewById(R.id.et_nameProduct);
         editTextQuantityProduct = findViewById(R.id.et_quantity);
         editTextPriceProduct = findViewById(R.id.et_price);
+
+
+
 
         productImg = findViewById(R.id.id_productImg);
         productImg.setOnClickListener(new View.OnClickListener() {
@@ -65,28 +70,7 @@ public class infoProductActivity extends AppCompatActivity {
             }
         });
 
-        buttonAddToDB = findViewById(R.id.btnAddToDB);
-        buttonAddToDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (TextUtils.isEmpty(editTextNAmeProduct.getText()) || TextUtils.isEmpty(editTextPriceProduct.getText()) || TextUtils.isEmpty(editTextQuantityProduct.getText())) {
-                    Toast.makeText(infoProductActivity.this, "please complet all information !", Toast.LENGTH_SHORT).show();
-                } else {
-                    pName = editTextNAmeProduct.getText().toString().trim();
-                    pQuantity = editTextQuantityProduct.getText().toString().trim();
-                    pPrice = editTextPriceProduct.getText().toString().trim();
-                    String key = mDatabase.child("products").push().getKey();
-                    uploadToFirebase(selectedImage, key);
-                    ModelProduct product = new ModelProduct(pName, pQuantity, pPrice, key, selectedImage + "");
-                    mDatabase.child("products").child(key).setValue(product);
-
-                    finish();
-                }
-            }
-        });
-
-    }
+        }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -112,13 +96,16 @@ public class infoProductActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
 
         //Select destination filename, folder
-        final StorageReference profileimageRef = storageRef.child(key + ".jpg");
-        UploadTask uploadTask = profileimageRef.putFile(uriProfileImage);
+
+        if (uriProfileImage == null) {
+
+            Toast.makeText(this, "no photo selected .. ", Toast.LENGTH_SHORT).show();
 
 
-        //Upload image
-        if (uriProfileImage != null) {
-
+        }//Upload image
+        else {
+            final StorageReference profileimageRef = storageRef.child(key + ".jpg");
+            UploadTask uploadTask = profileimageRef.putFile(uriProfileImage);
             Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -150,5 +137,27 @@ public class infoProductActivity extends AppCompatActivity {
         ModelProduct product;
         product = new ModelProduct(link);
         mDatabase.push().setValue(product);
+    }
+
+    public void addtoDataBase(View view) {
+        BitmapDrawable drawable = (BitmapDrawable) productImg.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        Log.e(TAG, "addtoDataBase: " + bitmap.toString());
+        if (TextUtils.isEmpty(editTextMailUser.getText()) || TextUtils.isEmpty(editTextphoneUser.getText()) ||TextUtils.isEmpty(editTextNAmeProduct.getText()) || TextUtils.isEmpty(editTextPriceProduct.getText()) || TextUtils.isEmpty(editTextQuantityProduct.getText()) || bitmap == null) {
+            Toast.makeText(infoProductActivity.this, "please complet all information !", Toast.LENGTH_SHORT).show();
+        } else {
+            uPhone = editTextphoneUser.getText().toString().trim();
+            uMail = editTextMailUser.getText().toString().trim();
+            pName = editTextNAmeProduct.getText().toString().trim();
+            pQuantity = editTextQuantityProduct.getText().toString().trim();
+            pPrice = editTextPriceProduct.getText().toString().trim();
+            String key = mDatabase.child("products").push().getKey();
+            uploadToFirebase(selectedImage, key);
+            ModelProduct product = new ModelProduct(pName,   uMail,   uPhone,   pQuantity, pPrice, key,selectedImage+"");
+            mDatabase.child("products").child(key).setValue(product);
+
+            finish();
+        }
+
     }
 }

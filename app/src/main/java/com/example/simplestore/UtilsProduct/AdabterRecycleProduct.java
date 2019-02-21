@@ -36,7 +36,8 @@ public class AdabterRecycleProduct extends RecyclerView.Adapter<AdabterRecyclePr
 
         ModelProduct product = modelProductArrayList.get(i);
         holder.imageView.setImageURI(Uri.parse(product.getUriImg()));
-        holder.textView.setText(product.getNameproduct());
+        holder.textView.setText(product.getPriceProduct()+"  $");
+
 
 
     }

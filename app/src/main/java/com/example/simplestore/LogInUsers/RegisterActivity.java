@@ -19,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Pattern;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -54,37 +56,62 @@ public class RegisterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(email.getText().toString().trim()) || (TextUtils.isEmpty(password.getText().toString().trim()))||TextUtils.isEmpty(fullName.getText().toString().trim()) || (TextUtils.isEmpty(Phone.getText().toString().trim()))) {
                     Toast.makeText(RegisterActivity.this, "please enter right data .. ", Toast.LENGTH_SHORT).show();
                 } else {
-                    mAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),password.getText().toString().trim())
-                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete( Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        Intent intent=new Intent(RegisterActivity.this, LogInActivity.class);
-                                        intent.putExtra("username",email.getText().toString().trim());
-                                        intent.putExtra("password",password.getText().toString().trim());
-                                        startActivity(intent);
-                                        finish();
+
+                    String uMail = email.getText().toString().trim();
+                    if (checkEmail(uMail) == true) {
+                        if(isValidPhoneNumber((Phone.getText().toString().trim()))==true) {
+
+                        mAuth.createUserWithEmailAndPassword(uMail, password.getText().toString().trim())
+                                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+
+                                            Log.d(TAG, "createUserWithEmail:success");
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            Intent intent = new Intent(RegisterActivity.this, LogInActivity.class);
+                                            intent.putExtra("username", email.getText().toString().trim());
+                                            intent.putExtra("password", password.getText().toString().trim());
+                                            startActivity(intent);
+                                            finish();
 
 
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                                    Toast.LENGTH_SHORT).show();
 
+                                        }
+
+                                        // ...
                                     }
+                                });
+                        }else{
+                            Toast.makeText(RegisterActivity.this, "phone is Valid .. ", Toast.LENGTH_SHORT).show();
 
-                                    // ...
-                                }
-                            });
-
+                        }
+                    }else {
+                        Toast.makeText(RegisterActivity.this, "E-Mail is Valid .. ", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             }
         });
     }
+    public final static boolean isValidPhoneNumber(CharSequence target) {
+        if (target == null || target.length() < 6 || target.length() > 13) {
+            return false;
+        } else {
+            return android.util.Patterns.PHONE.matcher(target).matches();
+        }
 
+    }
+    public static boolean checkEmail(String email) {
+
+        Pattern EMAIL_ADDRESS_PATTERN = Pattern
+                .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
 }

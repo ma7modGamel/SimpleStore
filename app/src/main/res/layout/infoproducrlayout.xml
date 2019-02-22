@@ -115,7 +115,7 @@
         android:elevation="5dp"
         android:ems="10"
         android:hint="E-mail Address"
-        android:inputType="numberDecimal"
+        android:inputType="textEmailAddress"
         android:paddingLeft="16dp"
         android:shadowColor="#ABABAB"
         android:shadowDx="5"

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.simplestore.UtilsProduct.ModelProduct;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class infoProductActivity extends AppCompatActivity {
     private static final String TAG = "infoProductActivity";
@@ -91,18 +93,11 @@ public class infoProductActivity extends AppCompatActivity {
 
 
     private void uploadToFirebase(Uri uriProfileImage, String key) {
-
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
-        //Select destination filename, folder
-
         if (uriProfileImage == null) {
-
             Toast.makeText(this, "no photo selected .. ", Toast.LENGTH_SHORT).show();
-
-
-        }//Upload image
+        }
         else {
             final StorageReference profileimageRef = storageRef.child(key + ".jpg");
             UploadTask uploadTask = profileimageRef.putFile(uriProfileImage);
@@ -112,7 +107,6 @@ public class infoProductActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
-
                     return profileimageRef.getDownloadUrl();
                 }
 
@@ -121,24 +115,24 @@ public class infoProductActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
 
                     if (task.isSuccessful()) {
-                        profileimageurl = task.getResult().toString();
-                        saveImagePathToDatabase(profileimageurl);
+                        profileimageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                saveImagePathToDatabase(uri.toString());
+                            }
+                        });
                     }
                 }
             });
         }
-
     }
-
-    String profileimageurl;
 
     private void saveImagePathToDatabase(String link) {
-
-        ModelProduct product;
-        product = new ModelProduct(link);
+        Log.e(TAG, "saveImagePathToDatabase: "+link);
+        product.setUriImg(link);
         mDatabase.push().setValue(product);
     }
-
+    ModelProduct product;
     public void addtoDataBase(View view) {
         BitmapDrawable drawable = (BitmapDrawable) productImg.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
@@ -146,18 +140,45 @@ public class infoProductActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(editTextMailUser.getText()) || TextUtils.isEmpty(editTextphoneUser.getText()) ||TextUtils.isEmpty(editTextNAmeProduct.getText()) || TextUtils.isEmpty(editTextPriceProduct.getText()) || TextUtils.isEmpty(editTextQuantityProduct.getText()) || bitmap == null) {
             Toast.makeText(infoProductActivity.this, "please complet all information !", Toast.LENGTH_SHORT).show();
         } else {
-            uPhone = editTextphoneUser.getText().toString().trim();
             uMail = editTextMailUser.getText().toString().trim();
-            pName = editTextNAmeProduct.getText().toString().trim();
-            pQuantity = editTextQuantityProduct.getText().toString().trim();
-            pPrice = editTextPriceProduct.getText().toString().trim();
-            String key = mDatabase.child("products").push().getKey();
-            uploadToFirebase(selectedImage, key);
-            ModelProduct product = new ModelProduct(pName,   uMail,   uPhone,   pQuantity, pPrice, key,selectedImage+"");
-            mDatabase.child("products").child(key).setValue(product);
+            if (checkEmail(uMail) == true) {
+                uPhone = editTextphoneUser.getText().toString().trim();
+                if(isValidPhoneNumber(uPhone)) {
 
-            finish();
+                    pName = editTextNAmeProduct.getText().toString().trim();
+                    pQuantity = editTextQuantityProduct.getText().toString().trim();
+                    pPrice = editTextPriceProduct.getText().toString().trim();
+                    String key = mDatabase.child("products").push().getKey();
+                    uploadToFirebase(selectedImage, key);
+                    product = new ModelProduct(pName, uMail, uPhone, pQuantity, pPrice, key, selectedImage + "");
+                    mDatabase.child("products").child(key).setValue(product);
+                    finish();
+                }else{
+                    Toast.makeText(this, "phone is inValid .. ", Toast.LENGTH_SHORT).show();
+
+                }
+            }else {
+                Toast.makeText(this, "E-Mail is inValid .. ", Toast.LENGTH_SHORT).show();
+            }
         }
 
+    }
+
+    public final static boolean isValidPhoneNumber(CharSequence target) {
+        if (target == null || target.length() < 6 || target.length() > 13) {
+            return false;
+        } else {
+            return android.util.Patterns.PHONE.matcher(target).matches();
+        }
+
+    }
+
+    public static boolean checkEmail(String email) {
+
+        Pattern EMAIL_ADDRESS_PATTERN = Pattern
+                .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 }

@@ -13,16 +13,22 @@ import android.widget.Toast;
 import com.example.simplestore.UtilsProduct.ModelProduct;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
+import java.util.regex.Pattern;
+
+import static com.example.simplestore.infoProductActivity.checkEmail;
 
 public class EditActivity extends AppCompatActivity {
     String productKeyId;
     ImageView imageViewxx;
-    EditText editTextphoneUserxx,editTextMailUserxx,editTextNAmeProductxx,editTextQuantityProductxx,editTextPriceProductxx;
+    EditText editTextphoneUserxx, editTextMailUserxx, editTextNAmeProductxx, editTextQuantityProductxx, editTextPriceProductxx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        
+
         imageViewxx = findViewById(R.id.id_productImgxx);
         imageViewxx.setImageResource(R.drawable.ic_photo);
 
@@ -47,25 +53,59 @@ public class EditActivity extends AppCompatActivity {
         editTextPriceProductxx.setText(productKeyprice);
         editTextNAmeProductxx.setText(productKeyname);
         if (productKeyuri != null) {
-            imageViewxx.setImageURI(Uri.parse(productKeyuri));
+            Picasso.with(this)
+                    .load(Uri.parse(productKeyuri))
+                    .into(imageViewxx);
+
         }
     }
 
-    String uPhone,uMail,pQuantity,pPrice,pName,selectedImage;
+    String uPhone, uMail, pQuantity, pPrice, pName, selectedImage;
+
     public void updateValues(View view) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        if (TextUtils.isEmpty(editTextMailUserxx.getText()) || TextUtils.isEmpty(editTextphoneUserxx.getText()) ||TextUtils.isEmpty(editTextNAmeProductxx.getText()) || TextUtils.isEmpty(editTextPriceProductxx.getText()) || TextUtils.isEmpty(editTextQuantityProductxx.getText())) {
+        if (TextUtils.isEmpty(editTextMailUserxx.getText()) || TextUtils.isEmpty(editTextphoneUserxx.getText()) || TextUtils.isEmpty(editTextNAmeProductxx.getText()) || TextUtils.isEmpty(editTextPriceProductxx.getText()) || TextUtils.isEmpty(editTextQuantityProductxx.getText())) {
             Toast.makeText(EditActivity.this, "please complet all information !", Toast.LENGTH_SHORT).show();
         } else {
-            uPhone = editTextphoneUserxx.getText().toString().trim();
             uMail = editTextMailUserxx.getText().toString().trim();
-            pName = editTextNAmeProductxx.getText().toString().trim();
-            pQuantity = editTextQuantityProductxx.getText().toString().trim();
-            pPrice = editTextPriceProductxx.getText().toString().trim();
-            ModelProduct product = new ModelProduct(pName,   uMail,   uPhone,   pQuantity, pPrice, productKeyId,selectedImage+"");
-            mDatabase.child("products").child(productKeyId).setValue(product);
-            finish();
+
+            if (checkEmail(uMail) == true) {
+
+                uPhone = editTextphoneUserxx.getText().toString().trim();
+                if (isValidPhoneNumber(uPhone)) {
+                    uMail = editTextMailUserxx.getText().toString().trim();
+                    pName = editTextNAmeProductxx.getText().toString().trim();
+                    pQuantity = editTextQuantityProductxx.getText().toString().trim();
+                    pPrice = editTextPriceProductxx.getText().toString().trim();
+                    ModelProduct product = new ModelProduct(pName, uMail, uPhone, pQuantity, pPrice, productKeyId, selectedImage + "");
+                    mDatabase.child("products").child(productKeyId).setValue(product);
+                    finish();
+                } else {
+                    Toast.makeText(this, "phone is Valid .. ", Toast.LENGTH_SHORT).show();
+
+                }
+            } else {
+                Toast.makeText(this, "E-Mail is Valid .. ", Toast.LENGTH_SHORT).show();
+            }
         }
 
+    }
+
+    public final static boolean isValidPhoneNumber(CharSequence target) {
+        if (target == null || target.length() < 6 || target.length() > 13) {
+            return false;
+        } else {
+            return android.util.Patterns.PHONE.matcher(target).matches();
+        }
+
+    }
+
+    public static boolean checkEmail(String email) {
+
+        Pattern EMAIL_ADDRESS_PATTERN = Pattern
+                .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                        + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 }

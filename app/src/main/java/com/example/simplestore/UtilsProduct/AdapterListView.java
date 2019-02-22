@@ -11,16 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.simplestore.MainActivity;
 import com.example.simplestore.R;
+import com.example.simplestore.showDataActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -66,7 +70,11 @@ public class AdapterListView extends BaseAdapter{
         ImageButton imgDelete=convertView.findViewById(R.id.img_delete);
         ImageButton imgEdit=convertView.findViewById(R.id.img_edit);
         ImageView imgViewNAme=convertView.findViewById(R.id.idImgList);
-        imgViewNAme.setImageURI(Uri.parse(product.getUriImg()));
+
+        Picasso.with(context)
+                .load(Uri.parse(product.getUriImg()))
+                .into(imgViewNAme);
+
         textViewNAme.setText(product.getNameproduct());
         textViewQuantity.setText(product.getQuantityProduct());
         notifyDataSetChanged();
@@ -94,6 +102,21 @@ public class AdapterListView extends BaseAdapter{
                             }
                         });
                 alertDialog2.show();
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, showDataActivity.class);
+                intent.putExtra("productKeymail",product.getEmail());
+                intent.putExtra("productKeyname",product.getNameproduct());
+                intent.putExtra("productKeyphoone",product.getPhoneNumber());
+                intent.putExtra("productKeyquantity",product.getQuantityProduct());
+                intent.putExtra("productKeyuri",product.getUriImg());
+                intent.putExtra("productKeyprice",product.getPriceProduct());
+                intent.putExtra("productKeyId",product.getId());
+                context.startActivity(intent);
             }
         });
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.simplestore.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,11 @@ public class AdabterRecycleProduct extends RecyclerView.Adapter<AdabterRecyclePr
     public void onBindViewHolder( holder holder, int i) {
 
         ModelProduct product = modelProductArrayList.get(i);
-        holder.imageView.setImageURI(Uri.parse(product.getUriImg()));
+        Picasso.with(mcontext)
+                .load(Uri.parse(product.getUriImg()))
+                .into(holder.imageView);
+
+
         holder.textView.setText(product.getPriceProduct()+"  $");
 
 

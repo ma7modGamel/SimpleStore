@@ -36,13 +36,13 @@ public class ModelProduct implements  Parcelable{
     };
 
 
-    public ModelProduct(String link) {
+    public ModelProduct(String uriImg) {
+        this.uriImg = uriImg;
     }
 
 
 
     public ModelProduct() {
-
     }
 
     public ModelProduct(Parcel in) {

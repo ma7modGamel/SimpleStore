@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".showDataActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+
+                            android:id="@+id/id_productImgyy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="350dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:padding="16dp"
+                            android:scaleType="fitCenter"
+
+                            android:src="@drawable/ic_photo" />
+
+                        <TextView
+                            android:id="@+id/et_nameProductyy"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/edittext_background_white"
+                            android:drawableLeft="@drawable/ic_name_product"
+                            android:drawablePadding="10dp"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="name product"
+                            android:inputType="text"
+                            android:paddingLeft="16dp"
+                            android:shadowColor="#ABABAB"
+                            android:shadowDx="5"
+                            android:shadowDy="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/et_quantityyy"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/edittext_background_white"
+                            android:drawableLeft="@drawable/ic_quantity"
+                            android:drawablePadding="10dp"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Quantity Product"
+                            android:inputType="numberDecimal"
+                            android:paddingLeft="16dp"
+                            android:shadowColor="#ABABAB"
+                            android:shadowDx="5"
+                            android:shadowDy="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/et_priceyy"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/edittext_background_white"
+                            android:drawableLeft="@drawable/ic_price"
+                            android:drawablePadding="10dp"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Price Product"
+                            android:inputType="numberDecimal"
+                            android:paddingLeft="16dp"
+                            android:shadowColor="#ABABAB"
+                            android:shadowDx="5"
+                            android:shadowDy="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/et_phone_useryy"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/edittext_background_white"
+                            android:drawableLeft="@drawable/ic_action_call"
+                            android:drawablePadding="10dp"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Phone number"
+                            android:inputType="numberDecimal"
+                            android:paddingLeft="16dp"
+                            android:shadowColor="#ABABAB"
+                            android:shadowDx="5"
+                            android:shadowDy="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/et_email_useryy"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/edittext_background_white"
+                            android:drawableLeft="@drawable/ic_action_mail"
+                            android:drawablePadding="10dp"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="E-mail Address"
+                            android:inputType="textEmailSubject"
+                            android:paddingLeft="16dp"
+                            android:shadowColor="#ABABAB"
+                            android:shadowDx="5"
+                            android:shadowDy="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_margin="4dp">
+
+                            <Button
+
+                                android:id="@+id/btnCall"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:background="#2BA21E"
+                                android:drawablePadding="10dp"
+                                android:elevation="5dp"
+                                android:ems="10"
+                                android:drawableLeft="@drawable/ic_action_call"
+                                android:gravity="center"
+                                android:onClick="callFun"
+                                android:paddingLeft="16dp"
+                                android:shadowColor="#ABABAB"
+                                android:shadowDx="5"
+                                android:shadowDy="5"
+                                android:text="Call"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18sp" />
+
+                            <Button
+
+                                android:drawableLeft="@drawable/ic_action_mail"
+                                android:id="@+id/btnSndEmail"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:background="#FF5722"
+                                android:drawablePadding="10dp"
+                                android:elevation="5dp"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:onClick="sendMailFun"
+                                android:paddingLeft="16dp"
+                                android:shadowColor="#ABABAB"
+                                android:shadowDx="5"
+                                android:shadowDy="5"
+                                android:text="Mail"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

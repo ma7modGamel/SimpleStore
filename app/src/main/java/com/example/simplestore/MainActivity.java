@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -38,16 +40,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnAdd = findViewById(R.id.btnAddId);
-
-
         listView = findViewById(R.id.id_listView);
         manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView = findViewById(R.id.id_recycle);
         recyclerView.setLayoutManager(manager);
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference().child("products");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
 
 
     public void addNewProduct(View view) {

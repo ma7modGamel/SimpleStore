@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnAdd = findViewById(R.id.btnAddId);
         listView = findViewById(R.id.id_listView);
-        manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView = findViewById(R.id.id_recycle);
+        manager = new  LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference().child("products");
